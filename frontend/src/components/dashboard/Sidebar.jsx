@@ -6,6 +6,7 @@ import {
   CreditCard,
   History,
   Settings,
+  MessageCircle,
   LogOut,
   Zap,
   X,
@@ -16,7 +17,7 @@ const navItems = [
   { label: "Generate Play", icon: Play, to: "/generate" },
   { label: "Plans", icon: CreditCard, to: "/plans" },
   { label: "Payment History", icon: History, to: "/payment-history" },
-  { label: "Settings", icon: Settings, to: "/settings" },
+  { label: "Support", icon: MessageCircle, to: "/support" },
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {

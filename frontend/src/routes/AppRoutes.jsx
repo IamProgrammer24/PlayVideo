@@ -10,6 +10,8 @@ import GeneratePlay from "../pages/GeneratePlay";
 import Plans from "../pages/Plans";
 import Payment from "../pages/Payment";
 import PaymentHistory from "../pages/PaymentHistory";
+import Support from "../pages/Support";
+import TicketDetail from "../pages/TicketDetail";
 import NotFound from "../pages/NotFound";
 
 const ProtectedRoute = ({ children }) => {
@@ -39,6 +41,8 @@ function AppRoutes() {
           <Route path="/plans" element={<Plans />} />
           <Route path="/payment/:planId" element={<Payment />} />
           <Route path="/payment-history" element={<PaymentHistory />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/support/:ticketId" element={<TicketDetail />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

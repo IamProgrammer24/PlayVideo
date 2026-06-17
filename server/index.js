@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import playRoutes from "./routes/playRoutes.js";
 import planRoutes from "./routes/planRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import ticketRoutes from "./routes/ticketRoutes.js";
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use("/api/credits", creditRoutes);
 app.use("/api/play", playRoutes);
 app.use("/api/plans", planRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/support", ticketRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running...");

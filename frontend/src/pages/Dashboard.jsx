@@ -102,35 +102,122 @@ const Dashboard = () => {
       </div>
 
       {/* ── Remaining Plays Card ── */}
-      <div className="relative overflow-hidden rounded-2xl bg-[#111827] border border-white/5 p-6">
-        {/* background glow */}
-        <div className="absolute -top-10 -right-10 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl">
+        {/* Background Glow */}
+        <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-indigo-500/15 blur-[120px]" />
+        <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-violet-500/10 blur-[100px]" />
 
-        <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-          <div>
-            <p className="text-sm text-gray-400 font-medium">Remaining Plays</p>
-            <p className="text-6xl font-bold text-white mt-2">
-              {user?.credits ?? 0}
-            </p>
-            <p className="text-sm text-gray-500 mt-1">Available to use</p>
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="flex items-start justify-between">
+            <div>
+              <span className="inline-flex items-center rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-300">
+                ✨ Remaining Plays
+              </span>
+
+              <h2 className="mt-5 bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-6xl font-extrabold text-transparent">
+                {user?.credits ?? 0}
+              </h2>
+
+              <p className="mt-2 text-sm text-gray-400">
+                Ready to generate video links
+              </p>
+            </div>
+
+            {/* Icon */}
+            <div
+              className="
+          flex
+          h-20
+          w-20
+          items-center
+          justify-center
+          rounded-3xl
+          border
+          border-indigo-500/20
+          bg-gradient-to-br
+          from-indigo-500/20
+          to-violet-500/10
+          shadow-lg
+          shadow-indigo-500/10
+        "
+            >
+              <Play size={36} className="text-indigo-300" fill="currentColor" />
+            </div>
           </div>
 
-          {/* Video icon */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-indigo-600/20 border border-indigo-500/20 flex items-center justify-center shrink-0">
-            <Play size={32} className="text-indigo-400" fill="currentColor" />
+          {/* Progress */}
+
+          <div className="mt-8">
+            <div className="mb-2 flex items-center justify-between text-xs text-gray-400">
+              <span>Usage</span>
+              <span>{user?.credits ?? 0} plays left</span>
+            </div>
+
+            <div className="h-2 overflow-hidden rounded-full bg-white/5">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-500"
+                style={{
+                  width: `${Math.min(
+                    ((user?.credits ?? 0) / 100) * 100,
+                    100,
+                  )}%`,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Divider */}
+
+          <div className="my-6 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+          {/* Footer */}
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-medium text-white">
+                Ready to create your next link?
+              </p>
+
+              <p className="mt-1 text-xs text-gray-400">
+                Generate high-quality video links instantly.
+              </p>
+            </div>
+
+            <button
+              onClick={() => navigate("/generate")}
+              className="
+          group
+          inline-flex
+          items-center
+          justify-center
+          gap-2
+          rounded-xl
+          bg-gradient-to-r
+          from-indigo-600
+          to-violet-600
+          px-6
+          py-3
+          text-sm
+          font-semibold
+          text-white
+          transition-all
+          duration-300
+          hover:-translate-y-1
+          hover:shadow-xl
+          hover:shadow-indigo-500/30
+          active:scale-95
+        "
+            >
+              <Zap
+                size={16}
+                className="transition-transform duration-300 group-hover:rotate-12"
+                fill="currentColor"
+              />
+              Generate Play
+            </button>
           </div>
         </div>
-
-        {/* Generate button */}
-        <button
-          onClick={() => navigate("/generate")}
-          className="mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-xl
-                     bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold
-                     transition-all duration-200 active:scale-[0.98]"
-        >
-          <Zap size={16} fill="currentColor" />
-          Generate Play
-        </button>
       </div>
 
       {/* ── Quick Actions ── */}
