@@ -2,6 +2,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import DashboardLayout from "../layouts/DashboardLayout";
+import AdminLayout from "../layouts/AdminLayout";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminPayments from "../pages/admin/AdminPayments";
+import AdminTickets from "../pages/admin/AdminTickets";
+import AdminTicketDetail from "../pages/admin/AdminTicketDetail";
+import AdminUsers from "../pages/admin/AdminUsers";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -18,6 +24,14 @@ const ProtectedRoute = ({ children }) => {
   const { user, authChecked } = useAuth();
   if (!authChecked) return null;
   return user ? children : <Navigate to="/" replace />;
+};
+
+const AdminRoute = ({ children }) => {
+  const { user, authChecked } = useAuth();
+  if (!authChecked) return null;
+  if (!user) return <Navigate to="/" replace />;
+  if (!user.isAdmin) return <Navigate to="/dashboard" replace />;
+  return children;
 };
 
 function AppRoutes() {
@@ -46,6 +60,23 @@ function AppRoutes() {
         </Route>
 
         <Route path="*" element={<NotFound />} />
+        {/* Admin routes */}
+        <Route
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/payments" element={<AdminPayments />} />
+          <Route path="/admin/tickets" element={<AdminTickets />} />
+          <Route
+            path="/admin/tickets/:ticketId"
+            element={<AdminTicketDetail />}
+          />
+          <Route path="/admin/users" element={<AdminUsers />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

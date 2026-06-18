@@ -47,11 +47,10 @@ export const AuthProvider = ({ children }) => {
         username,
         password,
       });
-
       setUser(data.user);
       localStorage.setItem("user", JSON.stringify(data.user));
       toast.success("Welcome back!");
-      return { success: true };
+      return { success: true, isAdmin: data.user.isAdmin };
     } catch (error) {
       const msg = error.response?.data?.message || "Login failed";
       toast.error(msg);

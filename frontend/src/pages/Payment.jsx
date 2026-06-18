@@ -16,10 +16,22 @@ const QR_PLACEHOLDER = null; // replace with real QR image URL later
 
 // ─── Payment app icons (emoji based for now) ───
 const UPI_APPS = [
-  { name: "GPay", emoji: "🟢" },
-  { name: "PhonePe", emoji: "🟣" },
-  { name: "Paytm", emoji: "🔵" },
-  { name: "BHIM", emoji: "🟠" },
+  {
+    name: "GPay",
+    icon: "https://images.seeklogo.com/logo-png/37/2/google-pay-tez-logo-png_seeklogo-370704.png",
+  },
+  {
+    name: "PhonePe",
+    icon: "https://e7.pngegg.com/pngimages/332/615/png-clipart-phonepe-india-unified-payments-interface-india-purple-violet.png",
+  },
+  {
+    name: "Paytm",
+    icon: "https://images.icon-icons.com/730/PNG/512/paytm_icon-icons.com_62778.png",
+  },
+  {
+    name: "BHIM",
+    icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvrRrVCWRYQOR02CAcd6H2vwGzfSXB1XX2Qkw2ldVePtzGdtu19AivqL0&s=10",
+  },
 ];
 
 // ─── Skeleton ───
@@ -264,10 +276,12 @@ const Payment = () => {
                     title={app.name}
                     className="flex flex-col items-center gap-1"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">
-                      {app.emoji}
-                    </div>
-                    <span className="text-xs text-gray-600">{app.name}</span>
+                    <img
+                      src={app.icon}
+                      alt={app.name}
+                      className="w-9 h-9 rounded-full object-cover"
+                    />
+                    {/* <span className="text-xs text-gray-600">{app.name}</span> */}
                   </div>
                 ))}
               </div>
@@ -342,7 +356,7 @@ const Payment = () => {
 
       {/* ── Footer note ── */}
       <p className="text-center text-xs text-gray-600 pb-4">
-        🔒 After submission, your payment will be verified by admin.
+        🔒 After submission, your payment will be verified by Team.
       </p>
     </div>
   );

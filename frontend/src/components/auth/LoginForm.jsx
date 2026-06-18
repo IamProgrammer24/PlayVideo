@@ -36,7 +36,9 @@ const LoginForm = () => {
     }
 
     const result = await login(formData.username, formData.password);
-    if (result.success) navigate("/dashboard");
+    if (result.success) {
+      result.isAdmin ? navigate("/admin") : navigate("/dashboard");
+    }
   };
 
   return (

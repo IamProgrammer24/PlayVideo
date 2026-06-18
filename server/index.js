@@ -9,6 +9,7 @@ import playRoutes from "./routes/playRoutes.js";
 import planRoutes from "./routes/planRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use("/api/play", playRoutes);
 app.use("/api/plans", planRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/support", ticketRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("API running...");

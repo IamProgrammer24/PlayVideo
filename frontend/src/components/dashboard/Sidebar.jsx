@@ -75,7 +75,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               to={to}
               onClick={onClose} // 📱 auto-close on mobile navigation
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group
+                `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group 
                 ${
                   isActive
                     ? "bg-indigo-600/20 text-indigo-400 border border-indigo-500/20"
