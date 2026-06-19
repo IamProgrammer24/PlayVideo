@@ -8,17 +8,19 @@ import {
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
+import { authRateLimiter } from "../middleware/authRateLimitMiddleware.js";
+
 const router = express.Router();
 
 // ========================
 // 👤 REGISTER ROUTE
 // ========================
-router.post("/register", registerUser);
+router.post("/register", authRateLimiter, registerUser);
 
 // ========================
 // 🔑 LOGIN ROUTE
 // ========================
-router.post("/login", loginUser);
+router.post("/login", authRateLimiter, loginUser);
 
 router.get("/me", protect, getMe);
 

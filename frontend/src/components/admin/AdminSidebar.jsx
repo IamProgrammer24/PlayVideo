@@ -75,7 +75,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                ${
                  isActive
                    ? "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-                   : "text-gray-400 hover:bg-white/5 hover:text-white"
+                   : "text-gray-400 hover:bg-white/5 hover:text-white border border-transparent"
                }`
             }
           >

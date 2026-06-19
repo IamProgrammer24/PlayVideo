@@ -17,7 +17,7 @@ const router = express.Router();
 // ─── User routes ───
 router.post("/create", protect, createTicket);
 router.get("/my-tickets", protect, getMyTickets);
-router.get("/:ticketId", protect, getTicketbyId);
+router.get("/:ticketId", protect, adminOnly, getTicketbyId);
 router.post("/:ticketId/reply", protect, replyToTicket);
 
 // ─── Admin routes ───

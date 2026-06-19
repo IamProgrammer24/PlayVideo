@@ -45,6 +45,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     fixed top-0 left-0 z-50
     h-screen w-60
     bg-[#0F172A]
+     flex flex-col
     transition-transform duration-300 ease-in-out
     ${isOpen ? "translate-x-0" : "-translate-x-full"}
     md:translate-x-0
@@ -80,7 +81,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 ${
                   isActive
                     ? "bg-indigo-600/20 text-indigo-400 border border-indigo-500/20"
-                    : "text-gray-400 hover:bg-white/5 hover:text-white"
+                    : "text-gray-400 hover:bg-white/5 hover:text-white border border-transparent"
                 }`
               }
             >

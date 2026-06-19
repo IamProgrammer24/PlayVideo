@@ -14,7 +14,48 @@ export const generatePlay = async (req, res) => {
     const user = req.user;
     const { url } = req.body;
 
-    // 1. check credits
+    // 1. VALIDATE INPUT
+    if (!url || typeof url !== "string") {
+      return res.status(400).json({
+        success: false,
+        message: "URL is required",
+      });
+    }
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(url.trim());
+    } catch {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid URL format",
+      });
+    }
+
+    // Only allow http and https
+    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid URL",
+      });
+    }
+
+    // Block internal addresses (SSRF protection)
+    const blockedHosts = [
+      "localhost",
+      "127.0.0.1",
+      "169.254.169.254",
+      "0.0.0.0",
+      "::1",
+    ];
+    if (blockedHosts.some((b) => parsedUrl.hostname.includes(b))) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid URL",
+      });
+    }
+
+    // 2. CHECK CREDITS
     if (user.credits < 1) {
       return res.status(400).json({
         success: false,
@@ -22,9 +63,8 @@ export const generatePlay = async (req, res) => {
       });
     }
 
-    const urlId = generateUrlId(url);
-
-    // 2. CHECK CACHE FIRST 🧠
+    // 3. CHECK CACHE 🧠
+    const urlId = generateUrlId(url.trim());
     const cached = await PlayCache.findOne({ urlId });
 
     if (cached) {
@@ -37,10 +77,11 @@ export const generatePlay = async (req, res) => {
         fileName: cached.response.file_name || "Unknown",
         fileType: cached.response.file_type || "Unknown",
         size: cached.response.size || "Unknown",
-        streamUrl: cached.response.stream_url || null, // ← add
-        downloadUrl: cached.response.download_url || null, // ← add
+        streamUrl: cached.response.stream_url || null,
+        downloadUrl: cached.response.download_url || null,
         status: "success",
       });
+
       return res.status(200).json({
         success: true,
         message: "From cache",
@@ -49,22 +90,36 @@ export const generatePlay = async (req, res) => {
       });
     }
 
-    // 3. CALL DISKWALA API
+    // 4. CALL DISKWALA API
+    let data;
+    try {
+      const apiUrl = `https://diskwala.litedns.xyz/?token=${process.env.DISKWALA_TOKEN}&url=${encodeURIComponent(url.trim())}`;
+      const response = await axios.get(apiUrl, { timeout: 15000 });
+      data = response.data;
+    } catch (apiError) {
+      await UserActivity.create({
+        userId: user._id,
+        url,
+        status: "failed",
+      }).catch(() => {});
 
-    const apiUrl = `https://diskwala.litedns.xyz/?token=${process.env.DISKWALA_TOKEN}&url=${encodeURIComponent(url)}`;
-    const response = await axios.get(apiUrl);
-    data = response.data;
+      return res.status(502).json({
+        success: false,
+        message: "Failed to reach video API. Try again.",
+      });
+    }
 
     if (!Array.isArray(data) || !data[0]) {
       await UserActivity.create({
         userId: user._id,
         url,
         status: "failed",
-      });
+      }).catch(() => {});
 
-      return res.status(500).json({
+      return res.status(422).json({
         success: false,
-        message: "Invalid API response",
+        message:
+          "Could not process this URL. Make sure it's a supported video link.",
       });
     }
 
@@ -80,26 +135,26 @@ export const generatePlay = async (req, res) => {
       link: play.link,
     };
 
-    // 4. SAVE TO CACHE 💾
+    // 5. SAVE TO CACHE 💾
     await PlayCache.create({ urlId, response: finalResponse });
 
-    // 5. DEDUCT CREDIT
+    // 6. DEDUCT CREDIT
     user.credits -= 1;
     await user.save();
 
-    // 6. SAVE ACTIVITY
+    // 7. SAVE ACTIVITY
     await UserActivity.create({
       userId: user._id,
       url,
       fileName: play.file_name || "Unknown",
       fileType: play.file_type || "Unknown",
       size: play.size || "Unknown",
-      streamUrl: play.stream_url || null, // ← add
-      downloadUrl: play.download_url || null, // ← add
+      streamUrl: play.stream_url || null,
+      downloadUrl: play.download_url || null,
       status: "success",
     });
 
-    // 7. RETURN RESPONSE
+    // 8. RETURN RESPONSE
     res.status(200).json({
       success: true,
       message: "Generated from API",
@@ -115,9 +170,10 @@ export const generatePlay = async (req, res) => {
       }).catch(() => {});
     }
 
+    console.error("generatePlay error:", error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again.",
     });
   }
 };
@@ -126,8 +182,8 @@ export const generatePlay = async (req, res) => {
 export const getUserActivity = async (req, res) => {
   try {
     const userId = req.user._id;
-    const limit = parseInt(req.query.limit) || 10;
-    const page = parseInt(req.query.page) || 1;
+    const limit = Math.min(parseInt(req.query.limit) || 10, 50); // max 50
+    const page = Math.max(parseInt(req.query.page) || 1, 1); // min page 1
     const skip = (page - 1) * limit;
 
     const activities = await UserActivity.find({ userId })
@@ -137,6 +193,7 @@ export const getUserActivity = async (req, res) => {
       .select(
         "url fileName fileType size streamUrl downloadUrl status createdAt",
       );
+
     const total = await UserActivity.countDocuments({ userId });
 
     res.status(200).json({
@@ -149,9 +206,10 @@ export const getUserActivity = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("getUserActivity error:", error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again.",
     });
   }
 };

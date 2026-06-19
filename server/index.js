@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/UserRoutes.js";
-import creditRoutes from "./routes/creditRoutes.js";
 import cookieParser from "cookie-parser";
 import playRoutes from "./routes/playRoutes.js";
 import planRoutes from "./routes/planRoutes.js";
@@ -20,9 +19,20 @@ const app = express();
 connectDB();
 
 // ✅ CORS — must be BEFORE all routes
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CLIENT_URL, // your Vercel frontend URL
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
@@ -31,7 +41,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/user", userRoutes);
-app.use("/api/credits", creditRoutes);
 app.use("/api/play", playRoutes);
 app.use("/api/plans", planRoutes);
 app.use("/api/payment", paymentRoutes);

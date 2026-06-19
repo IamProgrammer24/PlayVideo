@@ -166,7 +166,7 @@ const NotificationBell = () => {
           </div>
 
           {/* List */}
-          <div className="overflow-y-auto flex-1">
+          <div className="overflow-y-auto flex-1 hide-scrollbar">
             {loading ? (
               <div className="p-3 space-y-3">
                 {[...Array(3)].map((_, i) => (
