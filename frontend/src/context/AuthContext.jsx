@@ -74,6 +74,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
+  const refreshUser = async () => {
+    try {
+      const { data } = await axiosInstance.get("/api/user/me");
+      if (data.success) {
+        setUser(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+    } catch {
+      // fail silently — non-critical
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -84,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         updateCredits,
+        refreshUser,
       }}
     >
       {children}

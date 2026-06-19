@@ -50,9 +50,10 @@ export const generatePlay = async (req, res) => {
     }
 
     // 3. CALL DISKWALA API
+
     const apiUrl = `https://diskwala.litedns.xyz/?token=${process.env.DISKWALA_TOKEN}&url=${encodeURIComponent(url)}`;
     const response = await axios.get(apiUrl);
-    const data = response.data;
+    data = response.data;
 
     if (!Array.isArray(data) || !data[0]) {
       await UserActivity.create({

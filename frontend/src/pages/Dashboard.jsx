@@ -90,7 +90,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 md:px-6 space-y-6">
       {/* ── Welcome Header ── */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white">
@@ -109,13 +109,13 @@ const Dashboard = () => {
 
         <div className="relative z-10">
           {/* Header */}
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
             <div>
               <span className="inline-flex items-center rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-medium text-indigo-300">
                 ✨ Remaining Plays
               </span>
 
-              <h2 className="mt-5 bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-6xl font-extrabold text-transparent">
+              <h2 className="mt-5 bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-4xl sm:text-5xl md:text-6xl font-extrabold text-transparent">
                 {user?.credits ?? 0}
               </h2>
 
@@ -128,8 +128,7 @@ const Dashboard = () => {
             <div
               className="
           flex
-          h-20
-          w-20
+         h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20
           items-center
           justify-center
           rounded-3xl
@@ -142,7 +141,10 @@ const Dashboard = () => {
           shadow-indigo-500/10
         "
             >
-              <Play size={36} className="text-indigo-300" fill="currentColor" />
+              <Play
+                className="text-indigo-300 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9"
+                fill="currentColor"
+              />
             </div>
           </div>
 
@@ -225,7 +227,7 @@ const Dashboard = () => {
         <h2 className="text-base font-semibold text-white mb-3">
           Quick Actions
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <QuickActionCard
             icon={Play}
             label="Generate Play"
@@ -302,7 +304,7 @@ const Dashboard = () => {
                   onClick={() =>
                     activity.streamUrl && setSelectedVideo(activity)
                   }
-                  className={`flex items-center gap-3 px-4 py-3 transition-all duration-150
+                  className={`flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 transition-all duration-150
                     ${
                       activity.streamUrl
                         ? "hover:bg-white/5 cursor-pointer"

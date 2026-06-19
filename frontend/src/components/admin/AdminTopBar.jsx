@@ -1,5 +1,6 @@
 import { Menu, Shield } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import NotificationBell from "../dashboard/NotificationBell";
 
 const AdminTopBar = ({ onMenuClick }) => {
   const { user } = useAuth();
@@ -27,6 +28,9 @@ const AdminTopBar = ({ onMenuClick }) => {
           <Shield size={13} className="text-yellow-400" />
           <span className="text-xs font-medium text-yellow-400">Admin</span>
         </div>
+
+        {/* Notification Bell */}
+        <NotificationBell />
 
         {/* Avatar */}
         <div className="w-9 h-9 flex items-center justify-center rounded-xl bg-yellow-500/20 border border-yellow-500/30 text-yellow-400 text-sm font-bold cursor-pointer select-none">

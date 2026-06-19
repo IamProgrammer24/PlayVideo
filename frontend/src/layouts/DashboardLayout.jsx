@@ -12,31 +12,15 @@ const DashboardLayout = () => {
       {/* Background */}
       <AppBackground />
 
-      {/* MOBILE OVERLAY */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
       {/* SIDEBAR */}
-      <div
-        className={`
-          fixed top-0 left-0 h-full z-50 transition-transform duration-300
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:static md:z-auto
-        `}
-      >
-        <Sidebar onClose={() => setSidebarOpen(false)} />
-      </div>
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* TOPBAR */}
       <TopBar onMenuClick={() => setSidebarOpen(true)} />
 
       {/* MAIN CONTENT */}
-      <main className="relative z-10 pt-16 md:ml-60 min-h-screen overflow-y-auto">
-        <div className="p-4 md:p-6">
+      <main className="relative pt-16 md:ml-60 min-h-screen">
+        <div className="p-4 md:p-6 overflow-x-hidden">
           <Outlet />
         </div>
       </main>

@@ -3,6 +3,7 @@ import Payment from "../models/Payment.js";
 import Ticket from "../models/ticketModel.js";
 import UserActivity from "../models/userActivityModel.js";
 import bcrypt from "bcryptjs";
+import { createNotification } from "./notificationController.js";
 
 // ─── GET STATS ───
 export const getStats = async (req, res) => {
@@ -155,6 +156,19 @@ export const verifyPayment = async (req, res) => {
       }
     }
 
+    // ─── Notify user ───
+    await createNotification({
+      userId: payment.userId,
+      type: status === "approved" ? "payment_approved" : "payment_rejected",
+      title:
+        status === "approved" ? "Payment Approved! 🎉" : "Payment Rejected",
+      message:
+        status === "approved"
+          ? `Your ${payment.planId.name} plan payment has been approved. Credits added!`
+          : `Your payment was rejected. ${remarks || "Please contact support."}`,
+      link: "/payment-history",
+    });
+
     res.status(200).json({
       success: true,
       message: `Payment ${status} successfully.`,
@@ -230,6 +244,15 @@ export const adminReplyToTicket = async (req, res) => {
 
     ticket.replies.push({ sender: "admin", message: message.trim() });
     await ticket.save();
+
+    // ─── Notify user ───
+    await createNotification({
+      userId: ticket.userId,
+      type: "ticket_reply",
+      title: "Support replied to your ticket",
+      message: `Support team replied to "${ticket.subject}"`,
+      link: `/support/${ticket._id}`,
+    });
 
     res.status(200).json({
       success: true,

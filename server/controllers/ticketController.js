@@ -1,4 +1,5 @@
 import Ticket from "../models/ticketModel.js";
+import { notifyAllAdmins } from "./notificationController.js";
 
 const VALID_SUBJECTS = [
   "Payment Issue",
@@ -36,6 +37,14 @@ export const createTicket = async (req, res) => {
     }
 
     const ticket = await Ticket.create({ userId, subject, message });
+
+    // ─── Notify all admins ───
+    await notifyAllAdmins({
+      type: "new_ticket",
+      title: "New Support Ticket",
+      message: `${req.user.username} raised a ticket: "${subject}"`,
+      link: `/admin/tickets/${ticket._id}`,
+    });
 
     res.status(201).json({
       success: true,
@@ -130,6 +139,14 @@ export const replyToTicket = async (req, res) => {
 
     ticket.replies.push({ sender: "user", message: message.trim() });
     await ticket.save();
+
+    // ─── Notify all admins ───
+    await notifyAllAdmins({
+      type: "new_ticket",
+      title: "New Reply on Ticket",
+      message: `${req.user.username} replied to "${ticket.subject}"`,
+      link: `/admin/tickets/${ticket._id}`,
+    });
 
     res.status(200).json({
       success: true,

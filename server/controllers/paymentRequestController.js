@@ -1,6 +1,10 @@
 import Payment from "../models/Payment.js";
 import Plan from "../models/Plan.js";
 import User from "../models/User.js";
+import {
+  notifyAllAdmins,
+  createNotification,
+} from "./notificationController.js";
 
 // User submits payment request
 export const submitPaymentRequest = async (req, res) => {
@@ -41,6 +45,13 @@ export const submitPaymentRequest = async (req, res) => {
       planId: plan._id,
       amount: plan.price,
       utr: utr.trim().toUpperCase(),
+    });
+
+    await notifyAllAdmins({
+      type: "new_payment",
+      title: "New Payment Request",
+      message: `${req.user.username} submitted a payment for verification.`,
+      link: "/admin/payments",
     });
 
     return res.status(201).json({
@@ -115,9 +126,23 @@ export const verifyPaymentRequest = async (req, res) => {
       const user = await User.findById(payment.userId);
 
       user.credits += payment.planId.plays;
+      user.plan = payment.planId.name;
 
       await user.save();
     }
+
+    // Notify user
+    await createNotification({
+      userId: payment.userId,
+      type: status === "approved" ? "payment_approved" : "payment_rejected",
+      title:
+        status === "approved" ? "Payment Approved! 🎉" : "Payment Rejected",
+      message:
+        status === "approved"
+          ? `Your ${payment.planId.name} plan payment has been approved. Credits added!`
+          : `Your payment was rejected. ${remarks || "Please contact support."}`,
+      link: "/payment-history",
+    });
 
     return res.status(200).json({
       success: true,
