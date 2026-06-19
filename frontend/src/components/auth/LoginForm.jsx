@@ -105,6 +105,18 @@ const LoginForm = () => {
           Register
         </Link>
       </p>
+
+      <p className="text-center text-sm text-gray-500 mt-4">
+        Need help?
+        <a
+          href="https://t.me/Chhekur"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-400 hover:text-indigo-300 transition-colors"
+        >
+          Chat with us on Telegram
+        </a>
+      </p>
     </div>
   );
 };
