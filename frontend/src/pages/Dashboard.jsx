@@ -13,6 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import LaunchBanner from "../components/dashboard/LaunchBanner";
 
 // ─── Helper — shorten URL for display ───
 const shortenUrl = (url, maxLen = 40) => {
@@ -100,6 +101,8 @@ const Dashboard = () => {
           Here's what's happening with your account today.
         </p>
       </div>
+
+      <LaunchBanner />
 
       {/* ── Remaining Plays Card ── */}
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl">

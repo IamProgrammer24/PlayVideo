@@ -90,23 +90,40 @@ export const generatePlay = async (req, res) => {
       });
     }
 
-    // 4. CALL DISKWALA API
+    // 4. CALL DISKWALA API (or return mock data for testing)
     let data;
-    try {
-      const apiUrl = `https://diskwala.litedns.xyz/?token=${process.env.DISKWALA_TOKEN}&url=${encodeURIComponent(url.trim())}`;
-      const response = await axios.get(apiUrl, { timeout: 15000 });
-      data = response.data;
-    } catch (apiError) {
-      await UserActivity.create({
-        userId: user._id,
-        url,
-        status: "failed",
-      }).catch(() => {});
 
-      return res.status(502).json({
-        success: false,
-        message: "Failed to reach video API. Try again.",
-      });
+    if (process.env.MOCK_DISKWALA === "true") {
+      // ─── MOCK RESPONSE — remove/disable once real Diskwala API is ready ───
+      data = [
+        {
+          download_url:
+            "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
+          file_name: "Big Buck Bunny (Test Video)",
+          file_type: "video/mp4",
+          size: "158 MB",
+          sizebytes: 165728037,
+          link: "https://www.diskwala.com/app/6a072c4e69eabf87208594fe",
+          stream_url: "https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8",
+        },
+      ];
+    } else {
+      try {
+        const apiUrl = `https://diskwala.litedns.xyz/?token=${process.env.DISKWALA_TOKEN}&url=${encodeURIComponent(url.trim())}`;
+        const response = await axios.get(apiUrl, { timeout: 15000 });
+        data = response.data;
+      } catch (apiError) {
+        await UserActivity.create({
+          userId: user._id,
+          url,
+          status: "failed",
+        }).catch(() => {});
+
+        return res.status(502).json({
+          success: false,
+          message: "Failed to reach video API. Try again.",
+        });
+      }
     }
 
     if (!Array.isArray(data) || !data[0]) {

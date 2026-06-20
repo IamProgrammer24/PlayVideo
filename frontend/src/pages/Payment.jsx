@@ -10,9 +10,11 @@ import {
   RefreshCw,
 } from "lucide-react";
 
+import QR_PLACEHOLDER from "../assets/UPI_qr.jpeg";
+
 // ─── Hardcoded UPI details (replace with real data later) ───
-const UPI_ID = "yourname@upi";
-const QR_PLACEHOLDER = null; // replace with real QR image URL later
+const UPI_ID = "kin9@ptyes";
+// const QR_PLACEHOLDER = "../assets/UPI_qr.jpeg"; // replace with real QR image URL later
 
 // ─── Payment app icons (emoji based for now) ───
 const UPI_APPS = [

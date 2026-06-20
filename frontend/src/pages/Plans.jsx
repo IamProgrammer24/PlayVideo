@@ -9,6 +9,17 @@ const pricePerPlay = (price, plays) => {
   return (price / plays).toFixed(2);
 };
 
+// ─── Bonus plays calculator (1.5x display only) ───
+const bonusPlays = (plays) => {
+  return Math.floor(plays * 1.5);
+};
+
+const bonusPricePerPlay = (price, plays) => {
+  const boosted = bonusPlays(plays);
+  if (!boosted) return "0";
+  return (price / boosted).toFixed(2);
+};
+
 // ─── Skeleton Card ───
 const SkeletonCard = () => (
   <div className="rounded-2xl bg-[#111827] border border-white/5 p-6 space-y-4 animate-pulse">
@@ -61,11 +72,17 @@ const PlanCard = ({ plan, onChoose }) => {
 
       {/* Plays + price per play */}
       <div className="space-y-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <CheckCircle size={14} className="text-indigo-400 shrink-0" />
-          <span className="text-sm text-gray-300">
-            <span className="text-white font-semibold">{plan.plays}</span> plays
-            included
+          <span className="text-sm text-gray-300 flex items-center gap-1.5 flex-wrap">
+            <span className="text-gray-500 line-through">{plan.plays}</span>
+            <span className="text-white font-semibold">
+              {bonusPlays(plan.plays)}
+            </span>
+            plays included
+            <span className="px-1.5 py-0.5 rounded-full bg-green-500/10 text-green-400 text-[10px] font-bold border border-green-500/20">
+              🚀 LAUNCH OFFER +50%
+            </span>
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -75,8 +92,10 @@ const PlanCard = ({ plan, onChoose }) => {
             fill="currentColor"
           />
           <span className="text-sm text-gray-300">
-            <span className="text-white font-semibold">₹{perPlay}</span> per
-            play
+            <span className="text-white font-semibold">
+              ₹{bonusPricePerPlay(plan.price, plan.plays)}
+            </span>{" "}
+            per play
           </span>
         </div>
       </div>
