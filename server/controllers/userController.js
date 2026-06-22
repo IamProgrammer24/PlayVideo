@@ -27,7 +27,7 @@ export const getMe = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -69,7 +69,7 @@ export const registerUser = async (req, res) => {
     const user = await User.create({
       username,
       password: hashedPassword,
-      credits: 0,
+      credits: 5,
     });
 
     res.status(201).json({
@@ -85,7 +85,7 @@ export const registerUser = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error",
-      error: error.message,
+      error: "Something went wrong. Please try again",
     });
   }
 };
@@ -136,6 +136,6 @@ export const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Something went wrong. Please try again" });
   }
 };
