@@ -16,6 +16,7 @@ const notificationSchema = new mongoose.Schema(
         "ticket_reply",
         "new_payment",
         "new_ticket",
+        "referral_reward",
       ],
       required: true,
     },

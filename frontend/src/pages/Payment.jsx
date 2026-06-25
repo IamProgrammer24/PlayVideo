@@ -217,7 +217,33 @@ const Payment = () => {
           </div>
         </div>
       )}
-
+      {/* ── Bonus plays notice ── */}
+      <div className="px-4 py-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20 space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-base shrink-0">⚠️</span>
+          <p className="text-xs font-semibold text-yellow-200">
+            About your bonus plays
+          </p>
+        </div>
+        <ul className="space-y-1 pl-1">
+          <li className="flex items-start gap-2 text-xs text-yellow-300">
+            <span className="shrink-0">•</span>
+            Plan above shows original plays — bonus plays added separately
+          </li>
+          <li className="flex items-start gap-2 text-xs text-yellow-300">
+            <span className="shrink-0">•</span>
+            May take 2-3 hours to add bonus plays after approval
+          </li>
+          <li className="flex items-start gap-2 text-xs text-yellow-300">
+            <span className="shrink-0">•</span>
+            Don't see it? Try logging out and back in
+          </li>
+          <li className="flex items-start gap-2 text-xs text-yellow-300">
+            <span className="shrink-0">•</span>
+            Still missing? Raise a support ticket
+          </li>
+        </ul>
+      </div>
       {/* ── Scan & Pay ── */}
       <div className="rounded-2xl bg-[#111827] border border-white/5 p-5 space-y-4">
         <p className="text-sm font-semibold text-white">Scan & Pay</p>

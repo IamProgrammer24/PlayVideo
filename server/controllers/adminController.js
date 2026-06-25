@@ -47,7 +47,12 @@ export const getStats = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -60,7 +65,12 @@ export const getAllUsers = async (req, res) => {
 
     res.status(200).json({ success: true, users });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -95,7 +105,12 @@ export const resetUserPassword = async (req, res) => {
       message: `Password reset successfully for ${user.username}.`,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -109,7 +124,12 @@ export const getAllPayments = async (req, res) => {
 
     res.status(200).json({ success: true, payments });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -175,7 +195,12 @@ export const verifyPayment = async (req, res) => {
       payment,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -189,7 +214,12 @@ export const getAllTickets = async (req, res) => {
 
     res.status(200).json({ success: true, tickets });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 // ─── GET TICKET BY ID ───
@@ -215,7 +245,7 @@ export const getTicketbyId = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -260,7 +290,12 @@ export const adminReplyToTicket = async (req, res) => {
       ticket,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -296,6 +331,11 @@ export const changeTicketStatus = async (req, res) => {
       ticket,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };

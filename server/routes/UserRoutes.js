@@ -5,6 +5,7 @@ import {
   registerUser,
   loginUser,
   getMe,
+  getReferralStats,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -23,6 +24,8 @@ router.post("/register", authRateLimiter, registerUser);
 router.post("/login", authRateLimiter, loginUser);
 
 router.get("/me", protect, getMe);
+
+router.get("/referral-stats", protect, getReferralStats);
 
 // EXPORT ROUTER
 export default router;

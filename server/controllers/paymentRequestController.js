@@ -62,7 +62,7 @@ export const submitPaymentRequest = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -83,7 +83,7 @@ export const getMyPaymentRequests = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -151,7 +151,7 @@ export const verifyPaymentRequest = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };

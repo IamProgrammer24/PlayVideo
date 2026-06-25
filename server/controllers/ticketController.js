@@ -54,7 +54,7 @@ export const createTicket = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -75,7 +75,7 @@ export const getMyTickets = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -102,7 +102,7 @@ export const getTicketById = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -156,7 +156,7 @@ export const replyToTicket = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -176,7 +176,7 @@ export const getAllTickets = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -214,7 +214,7 @@ export const adminReplyToTicket = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };
@@ -253,7 +253,7 @@ export const changeTicketStatus = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Something went wrong. Please try again",
     });
   }
 };

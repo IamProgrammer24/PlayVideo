@@ -7,6 +7,7 @@ import {
   History,
   Settings,
   MessageCircle,
+  Gift,
   LogOut,
   Zap,
   X,
@@ -17,6 +18,7 @@ const navItems = [
   { label: "Generate Play", icon: Play, to: "/generate" },
   { label: "Plans", icon: CreditCard, to: "/plans" },
   { label: "Payment History", icon: History, to: "/payment-history" },
+  { label: "Referrals", icon: Gift, to: "/referrals" },
   { label: "Support", icon: MessageCircle, to: "/support" },
 ];
 

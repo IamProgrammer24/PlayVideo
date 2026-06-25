@@ -18,6 +18,7 @@ import Payment from "../pages/Payment";
 import PaymentHistory from "../pages/PaymentHistory";
 import Support from "../pages/Support";
 import TicketDetail from "../pages/TicketDetail";
+import Referrals from "../pages/Referrals";
 import NotFound from "../pages/NotFound";
 
 const ProtectedRoute = ({ children }) => {
@@ -57,6 +58,7 @@ function AppRoutes() {
           <Route path="/payment-history" element={<PaymentHistory />} />
           <Route path="/support" element={<Support />} />
           <Route path="/support/:ticketId" element={<TicketDetail />} />
+          <Route path="/referrals" element={<Referrals />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

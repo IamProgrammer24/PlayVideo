@@ -20,15 +20,19 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // ─── REGISTER ───
-  const register = async (username, password) => {
+  const register = async (username, password, referralCode) => {
     setLoading(true);
     try {
       const { data } = await axiosInstance.post("/api/user/register", {
         username,
         password,
+        referralCode,
       });
 
       toast.success(data.message || "Account created!");
+      if (data.referralBonus) {
+        toast.success(data.referralBonus);
+      }
       return { success: true };
     } catch (error) {
       const msg = error.response?.data?.message || "Registration failed";

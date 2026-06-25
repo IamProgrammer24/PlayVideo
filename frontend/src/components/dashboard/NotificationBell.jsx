@@ -9,6 +9,7 @@ import {
   MessageCircle,
   XCircle,
   Loader2,
+  Gift,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -34,6 +35,10 @@ const TYPE_ICON = {
     icon: MessageCircle,
     class: "text-yellow-400 bg-yellow-500/10 border-yellow-500/20",
   },
+  referral_reward: {
+    icon: Gift,
+    class: "text-green-400 bg-green-500/10 border-green-500/20",
+  },
 };
 
 const NotificationBell = () => {
@@ -53,14 +58,20 @@ const NotificationBell = () => {
       const { data } = await axiosInstance.get("/api/notifications");
       if (data.success) {
         // ─── If a new payment_approved notification arrived, refresh user credits ───
-        const hasNewPaymentUpdate = data.notifications.some(
+        const creditsAffectingTypes = [
+          "payment_approved",
+          "payment_rejected",
+          "referral_reward",
+        ];
+
+        const hasCreditUpdate = data.notifications.some(
           (n) =>
             !n.isRead &&
-            (n.type === "payment_approved" || n.type === "payment_rejected") &&
+            creditsAffectingTypes.includes(n.type) &&
             !notifications.find((old) => old._id === n._id),
         );
 
-        if (hasNewPaymentUpdate) {
+        if (hasCreditUpdate) {
           refreshUser();
         }
 

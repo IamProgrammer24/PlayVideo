@@ -15,7 +15,7 @@ export const getPlans = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to fetch plans",
-      error: error.message,
+      error: "Something went wrong. Please try again",
     });
   }
 };
@@ -39,7 +39,7 @@ export const getPlanById = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to fetch plan",
-      error: error.message,
+      error: "Something went wrong. Please try again",
     });
   }
 };

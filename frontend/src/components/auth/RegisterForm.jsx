@@ -1,6 +1,6 @@
 // frontend/src/components/auth/RegisterForm.jsx
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Logo from "../ui/Logo";
@@ -9,6 +9,8 @@ import { useAuth } from "../../context/AuthContext";
 const RegisterForm = () => {
   const { register, loading } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const referralCode = searchParams.get("ref");
 
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -42,7 +44,11 @@ const RegisterForm = () => {
       return;
     }
 
-    const result = await register(formData.username, formData.password);
+    const result = await register(
+      formData.username,
+      formData.password,
+      referralCode,
+    );
     if (result.success) navigate("/"); // redirect to login after register
   };
 

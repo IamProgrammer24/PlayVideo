@@ -21,7 +21,12 @@ export const getMyNotifications = async (req, res) => {
       unreadCount,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -46,7 +51,12 @@ export const markAsRead = async (req, res) => {
 
     res.status(200).json({ success: true, notification });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -62,7 +72,12 @@ export const markAllAsRead = async (req, res) => {
       message: "All notifications marked as read.",
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Something went wrong. Please try again",
+      });
   }
 };
 
@@ -77,7 +92,10 @@ export const createNotification = async ({
   try {
     await Notification.create({ userId, type, title, message, link });
   } catch (error) {
-    console.error("Failed to create notification:", error.message);
+    console.error(
+      "Failed to create notification:",
+      "Something went wrong. Please try again",
+    );
   }
 };
 
@@ -96,6 +114,9 @@ export const notifyAllAdmins = async ({ type, title, message, link }) => {
       await Notification.insertMany(notifications);
     }
   } catch (error) {
-    console.error("Failed to notify admins:", error.message);
+    console.error(
+      "Failed to notify admins:",
+      "Something went wrong. Please try again",
+    );
   }
 };
